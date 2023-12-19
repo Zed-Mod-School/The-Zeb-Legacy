@@ -1241,6 +1241,16 @@
   `(or ,@(apply (lambda (x) `(begin (define-extern ,x type) (type-type? (-> this etype) ,x))) types))
   )
 
+
+
+(deftype farmer (process-taskable)
+  ()
+  )
+
+  
+(declare-type yakow process-drawable)
+
+
 (defmethod birth! ((this entity-actor))
   "Create a process for this entity and start it."
   
@@ -1255,6 +1265,20 @@
     ; (logior! (-> this extra perm status) (entity-perm-status bit-0))
     ; (return this)
     ; )
+
+      (if (string= (the-as string (res-lump-struct this 'name basic)) "money-3649")
+         (set!(-> this etype) farmer)
+         )
+
+      (if (or 
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3650")
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3651")
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3652")
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3653")
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3654")
+          )
+         (set!(-> this etype) yakow)
+         )
   
   ;;(birth-log "call to birth! on ~A~%" this)
 

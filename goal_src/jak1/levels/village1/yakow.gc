@@ -104,6 +104,7 @@
    (enable-turn-around  basic)
    (rotating            basic)
    (in-pen              basic)
+   (name-proc-boulder string)
    )
   (:states
     yakow-die
@@ -415,20 +416,31 @@ yakow-default-event-handler
 (defstate yakow-idle (yakow)
   :event yakow-default-event-handler
   :enter (behavior ()
+
+
     (set-time! (-> self state-time))
     (set! (-> self travel-speed) 0.0)
     )
   :trans (behavior ()
-    (if (and (time-elapsed? (-> self state-time) (-> *YAKOW-bank* default-patrol-time))
-             (and *target*
-                  (>= (-> self fact idle-distance) (vector-vector-distance (-> self root trans) (-> *target* control trans)))
-                  )
-             (not (yakow-facing-player? 21845.334))
-             )
-        (go yakow-notice)
-        )
+
+
+
+    ;; (if (and (time-elapsed? (-> self state-time) (-> *YAKOW-bank* default-patrol-time))
+    ;;          (and *target*
+    ;;               (>= (-> self fact idle-distance) (vector-vector-distance (-> self root trans) (-> *target* control trans)))
+    ;;               )
+    ;;          (not (yakow-facing-player? 21845.334))
+    ;;          )
+    ;;     (go yakow-notice)
+    ;;     )
     )
   :code (behavior ()
+      (format #t "STRING IS NOT IDK COPYIONG POSITION OF MISSLE TO COW")
+  ;;     (when (not (name= (-> self name-proc-boulder) "IDK"))
+
+  ;; (vector-copy! (-> self root trans) (-> (the-as process-drawable (process-by-name (-> self name-proc-boulder) *active-pool*))root trans))
+  ;; )
+;;
     (ja-channel-push! 1 (seconds 0.15))
     (loop
       (cond
@@ -708,6 +720,8 @@ yakow-default-event-handler
 
 (defmethod init-from-entity! ((this yakow) (arg0 entity-actor))
   (stack-size-set! (-> this main-thread) 512)
+
+  (set! (-> this name-proc-boulder) "IDK")
   (let ((s4-0 (new 'process 'collide-shape-moving this (collide-list-enum hit-by-player))))
     (set! (-> s4-0 dynam) (copy *standard-dynamics* 'process))
     (set! (-> s4-0 reaction) default-collision-reaction)

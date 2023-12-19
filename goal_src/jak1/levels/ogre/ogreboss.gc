@@ -77,6 +77,7 @@
    (tumble-quat      quaternion                  :inline)
    (blast-radius     float)
    (pickup-type      pickup-type)
+   (attached-to-cow? symbol)
    )
   (:states
     ogreboss-missile-idle
@@ -100,6 +101,7 @@
           (eval-position! (-> self trajectory) f0-1 gp-0)
           )
         (vector-! s5-0 gp-0 (-> self root trans))
+      ;; this is what we want (add-debug-sphere #t (bucket-id debug)  (-> self root trans) (meters 2.0) (static-rgba 0 #xff 0 #x40))
         (let ((f0-2 (fill-and-probe-using-line-sphere
                       *collide-cache*
                       (-> self root trans)
@@ -409,6 +411,7 @@
   (set-time! (-> self start-time))
   (set! (-> self blast-radius) (-> arg0 blast-radius))
   (set! (-> self pickup-type) (-> arg0 pickup-type))
+  (set! (-> self attached-to-cow?) #f)
   (let ((f30-1 (* 65536.0 (rand-vu))))
     (quaternion-axis-angle!
       (-> self tumble-quat)

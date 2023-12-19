@@ -21,9 +21,128 @@
     ;; Begin function defintions.
     ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+
+#|
+My cows
+
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3650")
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3651")
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3652")
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3653")
+            (string= (the-as string (res-lump-struct this 'name basic)) "money-3654")
+|#
+
+#|
+MY farmer
+(string= (the-as string (res-lump-struct this 'name basic)) "money-3649")
+|#
+
+
+;;ogreboss-1
+
+;; (declare-type ogreboss-missle process-drawable)
+
+
+(defun assign-cow-to-missle ()
+(execute-process-tree *active-pool* (lambda ((proc process)) 
+(when (type-type? (-> proc type) ogreboss-missile)
+
+
+(when (= (-> (the-as ogreboss-missile proc) attached-to-cow?) #f)
+
+(set! (-> (the-as ogreboss-missile proc) attached-to-cow?) #t)
+(set! (-> proc name) (the-as basic "test"))
+ (format #t "~S" (-> proc name))
+(set! (-> (the-as yakow (process-by-ename "money-3650")) name-proc-boulder) (the-as string (-> proc name)))
+
+
+      
+)
+
+(when (= (-> (the-as ogreboss-missile proc) attached-to-cow?) #t)
+(when (not (name= (-> (the-as yakow (process-by-ename "money-3650")) name-proc-boulder) "IDK"))
+
+  (vector-copy! (-> (the-as yakow (process-by-ename "money-3650")) root trans) (-> (the-as process-drawable (process-by-name (-> (the-as yakow (process-by-ename "money-3650")) name-proc-boulder) *active-pool*))root trans))
+  )
+
+)
+
+
+ ;;format #t "FOUND SHIT")
+
+
+
+;; (let (
+;;     (vec (-> proc entity trans)) 
+;;     (quat (-> proc entity quat)) 
+;;     (name (the string (-> proc name))))
+;;     (when (= (-> (the entity-actor (-> proc entity)) etype) ogreboss-missile)
+
+;;     ;;We know its a crate
+
+;;     ;;What defense does it have
+;;     (format #t "FOUND SHIT")
+
+;;     ;;If its wood, increase our count
+;;     ;; (if (= (-> (the crate (-> (-> proc entity) extra process)) defense) 'wood)
+;;     ;; (set! *count-crates* (+ *count-crates* 1))
+;;     ;; )
+;;     ) 
+  
+;;     )
+    
+    
+    )
+    
+    ;;(format #t " trans: ~D~%"*count-crates*) 
+    ;;(set! *count-crates* 0)
+    )
+     *kernel-context*)
+
+
+(none))
+(defun klaww-fight-manager ()
+"This function runs every frame then does a bunch of stuff during the Klaww fight"
+
+(assign-cow-to-missle)
+;;Update variables first
+
+;;Do things
+
+;;(def-joint-node ogreboss-lod0-jg "chest" 5)
+
+
+ (let* 
+ (
+ (farmer (the-as farmer (process-by-ename "money-3649")))
+ (klaww (the-as ogreboss (process-by-ename "ogreboss-1")))
+ (klaww-neck-vec (vector<-cspace! (new-stack-vector0) (-> klaww node-list data 5)))
+ )
+ 
+ 
+
+
+(move-actor "money-3649" (/ (- (-> klaww-neck-vec x) (meters 12.0))(meters 1.0)) (/ (- (-> klaww-neck-vec y) (meters 13.0))(meters 1.0)) (/ (-> klaww-neck-vec z) (meters 1.0)))
+(set! (-> farmer root scale x) 7.0)
+(set! (-> farmer root scale y) 7.0)
+(set! (-> farmer root scale z) 7.0)
+
+(vector-copy! (-> farmer root rot) (-> klaww root rot))
+(set! (-> farmer root rot y) (- (-> farmer root rot y) 0.455))
+
+;;Update variables that need to be updated once the loop terminates
+;; (ppointer->process (-> (process-by-ename "ogreboss-1")child))
+ )
+(none)
+)
     (defun runs-every-frame ()
       ;;(increase-power-cell-by-one) This is a call to increase-power-cell-by-one defined in mod-common-functions.gc
-      
+     
+     (when (and (process-by-ename "money-3649") (process-by-ename "ogreboss-1"))
+     (klaww-fight-manager
+      )
+     ) 
       (if *show-input-display* 
         (input-display-on)
         (input-display-off)

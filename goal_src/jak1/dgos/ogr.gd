@@ -12,6 +12,8 @@
   "ogre-part.o"
   "ogreboss.o"
   "ogre-obs.o"
+      "yakow.o"
+  "farmer.o"
   "flying-lurker.o"
   "tpage-875.go"
   "tpage-967.go"
